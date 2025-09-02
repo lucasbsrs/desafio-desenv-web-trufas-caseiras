@@ -5,6 +5,19 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1; /* Faz o conteúdo ocupar o espaço que sobra */
+}
+
 body {
     background-color: #f9f3e9;
     color: #4a2c2a;
@@ -138,6 +151,30 @@ footer {
     margin: 5px 0;
 }
 
+
+.add-carrinho {
+    background-color: #8a5a44;
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin: 10px 0;
+}
+
+.add-carrinho:hover {
+    background-color: #b17f67; /* tom mais claro no hover */
+    transform: translateY(-3px);
+}
+
+.add-carrinho:active {
+    background-color: #6e3f2e; /* mais escuro ao clicar */
+    transform: translateY(0);
+}
+
 .item-count {
     background-color: #fff;
     color: #4a2c2a;
@@ -154,6 +191,43 @@ footer {
     align-items: center;
     justify-content: center;
 }
+
+#lista-carrinho {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+.item-carrinho {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.item-carrinho img {
+    max-width: 100px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.item-carrinho button {
+    background-color: #8a5a44;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.item-carrinho button:hover {
+    background-color: #b17f67;
+}
+
 
 /* ---------- RESPONSIVIDADE ---------- */
 @media (max-width: 768px) {
