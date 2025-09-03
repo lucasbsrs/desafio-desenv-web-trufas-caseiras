@@ -39,3 +39,23 @@ contador.innerText = carrinho.reduce((acc, item) => acc + item.quantidade, 0)
             this.style.transform = 'scale(1)';
         });
     });
+
+
+    // Botão de ingredientes (mostrar/esconder)
+
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.toggle-ingredientes');
+  if (!btn) return;
+
+  e.preventDefault();
+
+  // acha o card e o <p class="ingredientes"> correspondente
+  const card = btn.closest('.produto');
+  const p = card?.querySelector('.ingredientes');
+  if (!p) return;
+
+  const open = p.style.display === 'block';
+  p.style.display = open ? 'none' : 'block';
+  btn.textContent = open ? 'Ingredientes' : 'Esconder ingredientes';
+  btn.setAttribute('aria-expanded', String(!open));
+});

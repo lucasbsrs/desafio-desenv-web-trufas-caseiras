@@ -104,6 +104,10 @@ nav ul li a:hover {
 }
 
 .produto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     width: 300px;
     margin: 20px;
     text-align: center;
@@ -163,6 +167,8 @@ footer {
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
     margin: 10px 0;
+    margin-top: 10px;
+    margin-bottom: 5px; /* espaço entre os dois botões */
 }
 
 .add-carrinho:hover {
@@ -228,6 +234,15 @@ footer {
     background-color: #b17f67;
 }
 
+
+/* ---------- INGREDIENTES HOME ---------- */
+.ingredientes {
+  margin: 10px 16px 14px;
+  font-size: 0.95rem;
+  color: #5b463f;      
+  text-align: center;  
+  line-height: 1.5;
+}
 
 /* ---------- RESPONSIVIDADE ---------- */
 @media (max-width: 768px) {
