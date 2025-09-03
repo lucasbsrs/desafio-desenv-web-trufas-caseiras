@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trufas Caseiras da Web</title>
+    <link rel="stylesheet" href="./styles/style.css"> 
+</head>
+<body>
+<header>
+        <h1>Trufas Caseiras da Web</h1>
+        <nav>
+            <ul>
+                <li><a href="home.html">Selecionar Trufas</a></li>
+                <li><a href="carrinho.html">Carrinho</a><span class="item-count">0</span></li>
+                <li><a href="sobre-nos.html">Sobre nós</a></li>
+                <li><a href="contato.html">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+  <main>
+    <section class="contato-form">
+      <h2>Entre em Contato</h2>
+      <h3>Tem alguma dúvida ou sugestão? Escreva para nós!</h3>
+      <form id="formContato" action="#" method="post">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required minlength="3">
+        <div id="erroNome" class="erro"></div>
+
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" name="email" required>
+        <div id="erroEmail" class="erro"></div>
+
+        <label for="telefone">Telefone:</label>
+        <input type="tel" id="telefone" name="telefone" placeholder="(51) 99999-9999" >
+        <div id="erroTelefone" class="erro"></div>
+
+        <label for="mensagem">Mensagem:</label>
+        <textarea id="mensagem" name="mensagem" rows="4" required></textarea>
+        <div id="erroMensagem" class="erro"></div>
+
+        <button type="submit">Enviar</button>
+        <p id="msgSucesso" class="msg" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+    <footer>
+        <div class="contato">
+            <p>Email: trufascaseiras@trabalhodaweb.com</p>
+            <p>Telefone: 9876-5432</p>
+            <p>Instagram: @trufascaseirasdaweb_trabalho</p>
+        </div>
+        <p>&copy; 2025 Trufas Caseiras da Web - Todos os direitos reservados</p>
+    </footer>
+
+    <script src="./scripts/script.js"></script>
+
+    <script>
+                const telefoneInput = document.getElementById("telefone");
+                const erroTelefone = document.getElementById("erroTelefone");
+
+                telefoneInput.addEventListener("input", (e) => {
+                    // Remove tudo que não é número
+                    let valor = e.target.value.replace(/\D/g, "");
+
+                    // Aplica a máscara
+                    if (valor.length > 2 && valor.length <= 6) {
+                        // DDD + até 4 dígitos do fixo
+                        valor = `(${valor.slice(0, 2)}) ${valor.slice(2)}`;
+                    } else if (valor.length === 10) {
+                        // Fixo: (51) 3594-1295
+                        valor = `(${valor.slice(0, 2)}) ${valor.slice(2, 6)}-${valor.slice(6, 10)}`;
+                    } else if (valor.length === 11) {
+                        // Celular: (51) 99313-5445
+                        valor = `(${valor.slice(0, 2)}) ${valor.slice(2, 7)}-${valor.slice(7, 11)}`;
+                    }
+
+                    e.target.value = valor;
+
+                    // Validação: precisa ter DDD + 8 (fixo) ou 9 (celular) dígitos
+                    const regex = /^\(\d{2}\)\s(\d{4}-\d{4}|\d{5}-\d{4})$/;
+                    if (e.target.value && !regex.test(e.target.value)) {
+                        erroTelefone.textContent = "Digite um telefone válido (ex: (51) 3594-1295 ou (51) 99999-9999)";
+                    } else {
+                        erroTelefone.textContent = "";
+                    }
+                });
+
+
+                const form = document.getElementById('formContato');
+                const msgSucesso = document.getElementById('msgSucesso');
+
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault(); // impede recarregar a página
+
+                    // Usa as validações nativas do HTML5 (required, minlength, type=email)
+                    // Se quiser mostrar bolhas nativas do navegador, use reportValidity():
+                    if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                    }
+
+                    // Se chegou aqui, está "ok" para a demo
+                    msgSucesso.textContent = 'Mensagem enviada!';
+                    msgSucesso.classList.add('mostrar'); // usa CSS pra estilizar/aparecer
+
+                    // opcional: limpar o formulário
+                    form.reset();
+
+                    // opcional: esconder a mensagem depois de alguns segundos
+                    setTimeout(() => {
+                    msgSucesso.textContent = '';
+                    msgSucesso.classList.remove('mostrar');
+                    }, 3500);
+                });
+    </script>
+
+
+</body>
+</html>

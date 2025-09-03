@@ -244,3 +244,53 @@ footer {
         padding: 20px;
     }
 }
+
+
+/* ---------- Contato ---------- */
+    .contato-form {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .contato-form h2 {
+      margin-bottom: 20px;
+      color: #8a5a44;
+    }
+    .contato-form label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .contato-form input, 
+    .contato-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .contato-form button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #8a5a44;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .contato-form button:hover {
+      background: #b17f67;
+    }
+    .msg {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: green;
+    }
+    .erro {
+      color: red;
+      font-size: 0.85rem;
+    }
