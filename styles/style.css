@@ -104,18 +104,19 @@ nav ul li a:hover {
 }
 
 .produto {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    width: 300px;
-    margin: 20px;
-    text-align: center;
-    background-color: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* espaço entre topo e rodapé */
+  align-items: center;
+  width: 300px;
+  margin: 20px;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+  padding-bottom: 15px; /* espaço interno no fim */
 }
 
 .produto:hover {
@@ -133,9 +134,9 @@ nav ul li a:hover {
     font-weight: bold;
 }
 
-.produto h3 {
-    padding: 15px;
-    background-color: #fff;
+.produto h3,
+.produto p {
+  margin: 10px 15px;
 }
 
 /* ---------- FOOTER ---------- */
