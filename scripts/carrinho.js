@@ -1,62 +1,108 @@
-const botoes = document.querySelectorAll('.add-carrinho')
-const contador = document.querySelector('.item-count')
+const tbody      = document.getElementById('tbody-carrinho');
+const msgVazio   = document.getElementById('mensagem-vazio');
+const totalEl    = document.getElementById('total-geral');
+const headerCnt  = document.querySelector('.item-count');
 
-    // Zoom nas imagens
-    document.querySelectorAll('.produto-imagem').forEach(imagem => {
-        imagem.addEventListener('mouseover', function() {
-            this.style.transform = 'scale(1.2)';
-            this.style.transition = 'transform 0.3s ease';
-        });
-        
-        imagem.addEventListener('mouseout', function() {
-            this.style.transform = 'scale(1)';
-        });
-    });
+const getCart = () => JSON.parse(localStorage.getItem('carrinho')) || [];
+const setCart = (c) => localStorage.setItem('carrinho', JSON.stringify(c));
+const formatBRL = (n) => new Intl.NumberFormat('pt-BR', {style:'currency',currency:'BRL'}).format(Number(n)||0);
 
-    const lista = document.getElementById("lista-carrinho")
-    const msgVazio = document.getElementById("mensagem-vazio")
+function updateHeaderCount() {
+  const c = getCart();
+  if (headerCnt) headerCnt.textContent = c.reduce((sum,i)=>sum+(i.quantidade||1),0);
+}
 
-    function carregarCarrinho() {
-        const carrinho = JSON.parse(localStorage.getItem("carrinho")) || []
-        
-        lista.innerHTML = ""
-        if (carrinho.length === 0) {
-            msgVazio.style.display = "block"
-            return
-        }else{ 
-            msgVazio.style.display = "none"
-        }
-        carrinho.forEach((item, index) => {
-            const div = document.createElement("div")
-            div.classList.add("item-carrinho")
+function render() {
+  if (!tbody) return;
+  const carrinho = getCart();
+  tbody.innerHTML = '';
 
-            div.innerHTML = `
-                <img src="${item.imagem}" alt="${item.nome}" width="100">
-                <p><strong>${item.nome}</strong></p>
-                <p>Qtd: ${item.quantidade}</p>
-                <button class="remover">Remover</button>
-            `
+  if (!carrinho.length) {
+    if (msgVazio) msgVazio.style.display = 'block';
+    if (totalEl) totalEl.textContent = formatBRL(0);
+    updateHeaderCount();
+    return;
+  } else {
+    if (msgVazio) msgVazio.style.display = 'none';
+  }
 
-            div.querySelector(".remover").addEventListener("click", () => removerItem(index))
+  let total = 0;
 
-            lista.appendChild(div)
-        })
+  carrinho.forEach((item, idx) => {
+    const qtd = item.quantidade || 1;
+    const preco = Number(item.preco) || 0;
+    const subtotal = qtd * preco;
+    total += subtotal;
 
-        contador.innerText = carrinho.reduce((acc, item) => acc + item.quantidade, 0)
+    const tr = document.createElement('tr');
+    tr.dataset.index = String(idx);
+    tr.innerHTML = `
+      <td><img src="${item.imagem}" alt="${item.nome}"></td>
+      <td>${item.nome}</td>
+      <td>
+        <div class="qty">
+          <button data-act="dec" aria-label="Diminuir">−</button>
+          <input type="number" class="qty-input" min="1" value="${qtd}">
+          <button data-act="inc" aria-label="Aumentar">+</button>
+        </div>
+      </td>
+      <td>${formatBRL(preco)}</td>
+      <td class="subtotal">${formatBRL(subtotal)}</td>
+      <td><button class="btn-remove" data-act="remover">Remover</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
 
-    }
+  if (totalEl) totalEl.textContent = formatBRL(total);
+  updateHeaderCount();
+}
 
-    function removerItem(index) {
-        let carrinho = JSON.parse(localStorage.getItem("carrinho")) || []
+// ações add remover
+tbody?.addEventListener('click', (e) => {
+  const btn = e.target.closest('button');
+  if (!btn) return;
 
-        if (carrinho[index].quantidade > 1) {
-            carrinho[index].quantidade--
-        } else {
-            carrinho.splice(index, 1)
-        }
+  const tr  = btn.closest('tr');
+  const idx = parseInt(tr.dataset.index, 10);
+  const act = btn.dataset.act;
 
-        localStorage.setItem("carrinho", JSON.stringify(carrinho))
-        carregarCarrinho()
-    }
+  const carrinho = getCart();
 
-    carregarCarrinho()
+  if (act === 'inc') {
+    carrinho[idx].quantidade += 1;
+
+  } else if (act === 'dec') {
+    carrinho[idx].quantidade = Math.max(1, (carrinho[idx].quantidade || 1) - 1);
+
+  } else if (act === 'remover') {
+    const nome = carrinho[idx]?.nome || 'este item';
+    const ok = window.confirm(`Remover "${nome}" do carrinho?`);
+    if (!ok) return;
+    carrinho.splice(idx, 1);
+  }
+
+  setCart(carrinho);
+  render();
+});
+
+
+// mudança manual na quantidade
+tbody?.addEventListener('change', (e) => {
+  const input = e.target.closest('.qty-input');
+  if (!input) return;
+  const tr = input.closest('tr');
+  const idx = parseInt(tr.dataset.index, 10);
+
+  const carrinho = getCart();
+  let v = parseInt(input.value, 10);
+  if (isNaN(v) || v < 1) v = 1;
+  carrinho[idx].quantidade = v;
+
+  setCart(carrinho);
+  render();
+});
+
+render();
+
+
+

@@ -310,3 +310,53 @@ footer {
       color: red;
       font-size: 0.85rem;
     }
+
+
+/* ---------- CARRINHO DE COMPRAS ---------- */
+
+    .cart{
+  width: min(100%, 960px);
+  margin: 0 auto 12px;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
+.cart th, .cart td{
+  padding: 10px 12px;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+}
+.cart th{
+  background: #f7ede4;
+  color: #4a2c2a;
+  font-weight: 700;
+}
+.cart td:first-child{ width: 110px; }
+.cart td:nth-child(2){ text-align: left; }
+.cart td:nth-child(4),
+.cart td:nth-child(5){ text-align: right; font-variant-numeric: tabular-nums; }
+
+.cart img{
+  width: 96px; height: 64px; object-fit: cover; border-radius: 8px;
+}
+
+/* controle de quantidade */
+.qty{ display:inline-flex; align-items:center; gap:6px; }
+.qty button{
+  width:28px; height:28px; border:none; background:#f2f2f2;
+  border-radius:4px; cursor:pointer; font-size:18px;
+}
+.qty input{
+  width:56px; text-align:center; border:1px solid #ccc;
+  border-radius:6px; padding:4px; font-weight:600;
+}
+
+.btn-remove{
+  background:#ef4444; color:#fff; border:none;
+  padding:8px 12px; border-radius:6px; cursor:pointer;
+}
+
+.totais{ width:min(100%,960px); margin:10px auto 0; }
+.linha-total{ display:flex; justify-content:flex-end; gap:12px; align-items:baseline; }

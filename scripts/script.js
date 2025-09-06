@@ -1,61 +1,58 @@
-const botoes = document.querySelectorAll('.add-carrinho')
-const contador = document.querySelector('.item-count')
+// HOME – adicionar itens ao carrinho salvando {nome, imagem, preco, quantidade}
+const botoes = document.querySelectorAll('.add-carrinho');
+const contador = document.querySelector('.item-count');
 
-let carrinho = JSON.parse(localStorage.getItem("carrinho")) || []
-contador.innerText = carrinho.reduce((acc, item) => acc + item.quantidade, 0)
+function getCart() {
+  return JSON.parse(localStorage.getItem('carrinho')) || [];
+}
+function setCart(c) {
+  localStorage.setItem('carrinho', JSON.stringify(c));
+}
+function updateHeaderCount() {
+  const c = getCart();
+  contador && (contador.textContent = c.reduce((acc, i) => acc + (i.quantidade || 1), 0));
+}
+updateHeaderCount();
 
-    botoes.forEach((btn, index) => {
-        btn.addEventListener('click', () => {
-            const produto = document.querySelectorAll('.produto')[index]
-            const nome = produto.querySelector("h3").innerText
-            const imagem = produto.querySelector("img").getAttribute("src")
+botoes.forEach((btn, index) => {
+  btn.addEventListener('click', () => {
+    const card   = document.querySelectorAll('.produto')[index] || btn.closest('.produto');
+    const nome   = card.querySelector('h3').innerText.trim();
+    const imagem = card.querySelector('img').getAttribute('src');
 
+    // Preço vindo da home (coloque data-price="4.50" no botão)
+    let preco = parseFloat(btn.getAttribute('data-price'));
+    // Fallback opcional: <p class="preco" data-price="...">
+    if (isNaN(preco)) {
+      const pAttr = card.querySelector('.preco')?.getAttribute('data-price');
+      if (pAttr) preco = parseFloat(pAttr);
+    }
+    if (isNaN(preco)) preco = 0;
 
-            let carrinho = JSON.parse(localStorage.getItem("carrinho")) || []
+    const carrinho = getCart();
+    const existente = carrinho.find(i => i.nome === nome);
 
-            const produtoExistente = carrinho.find(item => item.nome === nome)
+    if (existente) {
+      existente.quantidade = (existente.quantidade || 1) + 1;
+      if (!(typeof existente.preco === 'number') || isNaN(existente.preco) || existente.preco <= 0) {
+        existente.preco = preco; // corrige se item antigo não tinha preço
+      }
+    } else {
+      carrinho.push({ nome, imagem, preco, quantidade: 1 });
+    }
 
-            if(produtoExistente){
-                produtoExistente.quantidade++
-            }else{
-                carrinho.push({ nome, imagem, quantidade: 1 })
-            }
-            contador.innerText = carrinho.reduce((acc, item) => acc + item.quantidade, 0)
+    setCart(carrinho);
+    updateHeaderCount();
+  });
+});
 
-
-            localStorage.setItem('carrinho', JSON.stringify(carrinho))
-
-        })
-    })
-
-    // Zoom nas imagens
-    document.querySelectorAll('.produto-imagem').forEach(imagem => {
-        imagem.addEventListener('mouseover', function() {
-            this.style.transform = 'scale(1.2)';
-            this.style.transition = 'transform 0.3s ease';
-        });
-        
-        imagem.addEventListener('mouseout', function() {
-            this.style.transform = 'scale(1)';
-        });
-    });
-
-
-    // Botão de ingredientes (mostrar/esconder)
-
-document.addEventListener('click', (e) => {
-  const btn = e.target.closest('.toggle-ingredientes');
-  if (!btn) return;
-
-  e.preventDefault();
-
-  // acha o card e o <p class="ingredientes"> correspondente
-  const card = btn.closest('.produto');
-  const p = card?.querySelector('.ingredientes');
-  if (!p) return;
-
-  const open = p.style.display === 'block';
-  p.style.display = open ? 'none' : 'block';
-  btn.textContent = open ? 'Ingredientes' : 'Esconder ingredientes';
-  btn.setAttribute('aria-expanded', String(!open));
+// Efeitos visuais da home (opcional)
+document.querySelectorAll('.produto-imagem').forEach(imagem => {
+  imagem.addEventListener('mouseover', function () {
+    this.style.transform = 'scale(1.2)';
+    this.style.transition = 'transform 0.3s ease';
+  });
+  imagem.addEventListener('mouseout', function () {
+    this.style.transform = 'scale(1)';
+  });
 });

@@ -19,11 +19,34 @@
         </nav>
     </header>
     <main>
-        <section class="carrinho">
-            <h2>Itens no carrinho</h2>
-            <ul id="lista-carrinho"></ul>
-            <p id="mensagem-vazio">Seu carrinho está vazio.</p>
+       <section class="carrinho">
+        <h2>Itens no carrinho</h2>
+            <div class="totais">
+                <div class="linha-total">
+                <span>Total:</span>
+                <strong id="total-geral">R$ 0,00</strong>
+                </div>
+            </div>
+        <table class="cart">
+            <thead>
+            <tr>
+                <th>Imagem</th>
+                <th>Produto</th>
+                <th>Qtd</th>
+                <th>Preço</th>
+                <th>Subtotal</th>
+                <th>Ação</th>
+            </tr>
+            </thead>
+            <tbody id="tbody-carrinho"></tbody>
+        </table>
+
+        <p id="mensagem-vazio">Seu carrinho está vazio.</p>
+
+        
         </section>
+
+
     </main>
     
     <footer>
