@@ -71,18 +71,18 @@
                 const erroTelefone = document.getElementById("erroTelefone");
 
                 telefoneInput.addEventListener("input", (e) => {
-                    // Remove tudo que não é número
+                    
                     let valor = e.target.value.replace(/\D/g, "");
 
-                    // Aplica a máscara
+                    
                     if (valor.length > 2 && valor.length <= 6) {
-                        // DDD + até 4 dígitos do fixo
+                        
                         valor = `(${valor.slice(0, 2)}) ${valor.slice(2)}`;
                     } else if (valor.length === 10) {
-                        // Fixo: (51) 3594-1295
+                        
                         valor = `(${valor.slice(0, 2)}) ${valor.slice(2, 6)}-${valor.slice(6, 10)}`;
                     } else if (valor.length === 11) {
-                        // Celular: (51) 99313-5445
+                        
                         valor = `(${valor.slice(0, 2)}) ${valor.slice(2, 7)}-${valor.slice(7, 11)}`;
                     }
 
@@ -104,21 +104,18 @@
                 form.addEventListener('submit', (e) => {
                     e.preventDefault(); // impede recarregar a página
 
-                    // Usa as validações nativas do HTML5 (required, minlength, type=email)
-                    // Se quiser mostrar bolhas nativas do navegador, use reportValidity():
+                    
                     if (!form.checkValidity()) {
                     form.reportValidity();
                     return;
                     }
 
-                    // Se chegou aqui, está "ok" para a demo
+                    
                     msgSucesso.textContent = 'Mensagem enviada!';
-                    msgSucesso.classList.add('mostrar'); // usa CSS pra estilizar/aparecer
-
-                    // opcional: limpar o formulário
+                    msgSucesso.classList.add('mostrar'); 
+                    
                     form.reset();
-
-                    // opcional: esconder a mensagem depois de alguns segundos
+                    
                     setTimeout(() => {
                     msgSucesso.textContent = '';
                     msgSucesso.classList.remove('mostrar');
