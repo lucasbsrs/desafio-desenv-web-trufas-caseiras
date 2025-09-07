@@ -20,9 +20,9 @@ botoes.forEach((btn, index) => {
     const nome   = card.querySelector('h3').innerText.trim();
     const imagem = card.querySelector('img').getAttribute('src');
 
-    // Preço vindo da home (coloque data-price="4.50" no botão)
+    // Pega preço da home
     let preco = parseFloat(btn.getAttribute('data-price'));
-    // Fallback opcional: <p class="preco" data-price="...">
+    
     if (isNaN(preco)) {
       const pAttr = card.querySelector('.preco')?.getAttribute('data-price');
       if (pAttr) preco = parseFloat(pAttr);

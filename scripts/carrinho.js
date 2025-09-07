@@ -57,7 +57,7 @@ function render() {
   updateHeaderCount();
 }
 
-// ações add remover
+// add remover
 tbody?.addEventListener('click', (e) => {
   const btn = e.target.closest('button');
   if (!btn) return;
